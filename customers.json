@@ -1,0 +1,20 @@
+[
+  {
+    "id": "fc36d159-b745-4852-ac08-f58115dd7ae0",
+    "name": "John Doe",
+    "street": "Main Street",
+    "houseNo": "10",
+    "postalCode": "8000",
+    "town": "Zurich",
+    "countryCode": "CH"
+  },
+  {
+    "id": "2d68f0e7-ba09-4787-b62c-ac3c95c5930f",
+    "name": "John Doe",
+    "street": "Main Street",
+    "houseNo": "10",
+    "postalCode": "8000",
+    "town": "Zurich",
+    "countryCode": "CH"
+  }
+]

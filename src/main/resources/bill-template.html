@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Rechnung</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20mm;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .total {
+            font-weight: bold;
+            text-align: right;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1>Rechnung</h1>
+    <div>
+        <h2>Kunde</h2>
+        <p th:text="${bill.customer.name}"></p>
+        <p th:text="${bill.customer.street + ' ' + bill.customer.houseNo}"></p>
+        <p th:text="${bill.customer.postalCode + ' ' + bill.customer.town}"></p>
+    </div>
+    <div>
+        <h2>Fahrten</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Datum</th>
+                <th>Anzahl km</th>
+                <th>Preis pro km</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="ride : ${bill.rides}">
+                <td th:text="${#temporals.format(ride.date, 'dd.MM.yyyy')}"></td>
+                <td th:text="${#numbers.formatDecimal(ride.distance, 1, 'POINT', 2, 'COMMA')}"></td>
+                <td th:text="${#numbers.formatDecimal(ride.pricePerKm, 1, 'POINT', 2, 'COMMA')}"></td>
+                <td th:text="${#numbers.formatDecimal(ride.total, 1, 'POINT', 2, 'COMMA')}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="total">Gesamttotal: <span th:text="${#numbers.formatDecimal(bill.total, 1, 'POINT', 2, 'COMMA')}"></span></p>
+    </div>
+</div>
+</body>
+</html>

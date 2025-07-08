@@ -1,17 +1,26 @@
 package ch.simonegli.billy;
 
+import ch.simonegli.billy.bill.BillCommand;
+import ch.simonegli.billy.bill.BillService;
 import ch.simonegli.billy.customer.CustomerCommand;
+import ch.simonegli.billy.customer.CustomerService;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.HelpCommand;
 
 @Command(name = "billy", mixinStandardHelpOptions = true, version = "Billy 1.0",
         description = "A simple CLI to generate Swiss QR Bills.",
-        subcommands = {HelpCommand.class, CustomerCommand.class})
+        subcommands = {CustomerCommand.class})
 public class BillyCli implements Runnable {
 
     public static void main(String[] args) {
-        int exitCode = new CommandLine(new BillyCli()).execute(args);
+        BillyCli billyCli = new BillyCli();
+        CustomerService customerService = new CustomerService();
+        BillService billService = new BillService();
+
+        CommandLine commandLine = new CommandLine(billyCli)
+                .addSubcommand("bill", new BillCommand(customerService, billService));
+
+        int exitCode = commandLine.execute(args);
         System.exit(exitCode);
     }
 
