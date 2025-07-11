@@ -29,6 +29,9 @@
             text-align: right;
             margin-top: 20px;
         }
+    .qr-bill {
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -61,6 +64,9 @@
             </tbody>
         </table>
         <p class="total">Gesamttotal: <span th:text="${#numbers.formatDecimal(bill.total, 1, 'POINT', 2, 'COMMA')}"></span></p>
+    </div>
+    <div th:if="${qrBillBase64 != null}">
+        <img class="qr-bill" th:src="'data:image/png;base64,' + ${qrBillBase64}" alt="Rechnung"/>
     </div>
 </div>
 </body>

@@ -2,6 +2,7 @@ package ch.simonegli.billy;
 
 import ch.simonegli.billy.bill.BillCommand;
 import ch.simonegli.billy.bill.BillService;
+import ch.simonegli.billy.bill.QrBillService;
 import ch.simonegli.billy.customer.CustomerCommand;
 import ch.simonegli.billy.customer.CustomerService;
 import picocli.CommandLine;
@@ -16,9 +17,10 @@ public class BillyCli implements Runnable {
         BillyCli billyCli = new BillyCli();
         CustomerService customerService = new CustomerService();
         BillService billService = new BillService();
+        QrBillService qrBillService = new QrBillService();
 
         CommandLine commandLine = new CommandLine(billyCli)
-                .addSubcommand("bill", new BillCommand(customerService, billService));
+                .addSubcommand("bill", new BillCommand(customerService, billService, qrBillService));
 
         int exitCode = commandLine.execute(args);
         System.exit(exitCode);

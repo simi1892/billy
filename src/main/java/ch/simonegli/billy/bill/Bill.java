@@ -35,4 +35,14 @@ public class Bill {
                 .map(Ride::getTotal)
                 .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
     }
+
+    private byte[] qrBillPng;
+
+    public byte[] getQrBillPng() {
+        return qrBillPng;
+    }
+
+    public void setQrBillPng(byte[] qrBillPng) {
+        this.qrBillPng = qrBillPng;
+    }
 }
