@@ -4,17 +4,14 @@ import ch.simonegli.billy.customer.Customer;
 import ch.simonegli.billy.customer.CustomerService;
 import picocli.CommandLine;
 
-import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
 
 @CommandLine.Command(name = "bill", description = "Creates a new bill")
 public class BillCommand implements Callable<Integer> {
