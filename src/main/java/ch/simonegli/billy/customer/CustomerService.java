@@ -27,15 +27,14 @@ public class CustomerService {
         return this.customers;
     }
 
-    public Customer getCustomerById(UUID id) {
+    public Optional<Customer> getCustomerById(UUID id) {
         return this.customers.stream()
                 .filter(c -> c.getId().equals(id.toString()))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
     public Optional<Customer> updateCustomer(String id, Customer updatedCustomer) {
-        Optional<Customer> existingCustomer = Optional.ofNullable(getCustomerById(UUID.fromString(id)));
+        Optional<Customer> existingCustomer = getCustomerById(UUID.fromString(id));
         if (existingCustomer.isPresent()) {
             Customer customerToUpdate = existingCustomer.get();
             customerToUpdate.setName(updatedCustomer.getName());

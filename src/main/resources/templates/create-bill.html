@@ -28,7 +28,7 @@
 </html>
 -->
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:swiss="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Create Bill</title>
@@ -79,7 +79,7 @@
                             </div>
                             <div class="col-md-2">
                                 <label class="form-label">Total:</label>
-                                <div class="form-control-plaintext fw-bold ride-total">CHF 0.00</div>
+                                <div class="form-control-plaintext fw-bold ride-total" swiss:format="0.00">CHF 0.00</div>
                             </div>
                             <div class="col-md-1 d-flex align-items-end">
                                 <button type="button" class="btn btn-danger btn-sm remove-ride" th:if="${iterStat.index > 0}">
@@ -103,7 +103,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Bill Total</h5>
-                                <h3 id="bill-total" class="text-primary">CHF 0.00</h3>
+                                <h3 id="bill-total" class="text-primary" swiss:format="0.00">CHF 0.00</h3>
                             </div>
                         </div>
                     </div>

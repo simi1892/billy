@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<html lang="de" xmlns:th="http://www.thymeleaf.org" xmlns:swiss="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>Rechnung</title>
@@ -57,13 +57,13 @@
             <tbody>
             <tr th:each="ride : ${bill.rides}">
                 <td th:text="${#temporals.format(ride.date, 'dd.MM.yyyy')}"></td>
-                <td th:text="${#numbers.formatDecimal(ride.distance, 1, 'POINT', 2, 'COMMA')}"></td>
-                <td th:text="${#numbers.formatDecimal(ride.pricePerKm, 1, 'POINT', 2, 'COMMA')}"></td>
-                <td th:text="${#numbers.formatDecimal(ride.total, 1, 'POINT', 2, 'COMMA')}"></td>
+                <td swiss:format="${ride.distance}"></td>
+                <td swiss:format="${ride.pricePerKm}"></td>
+                <td swiss:format="${ride.total}"></td>
             </tr>
             </tbody>
         </table>
-        <p class="total">Gesamttotal: <span th:text="${#numbers.formatDecimal(bill.total, 1, 'POINT', 2, 'COMMA')}"></span></p>
+        <p class="total">Gesamttotal: <span swiss:format="${bill.total}"></span></p>
     </div>
     <div th:if="${qrBillBase64 != null}">
         <img class="qr-bill" th:src="'data:image/png;base64,' + ${qrBillBase64}" alt="Rechnung"/>
