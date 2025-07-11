@@ -2,7 +2,7 @@
 
 Welcome to Billy, a fun little project for generating Swiss QR bills, especially handy for my bus rental side-hustle! 🚌
 
-This is a simple command-line interface (CLI) to manage customers and generate QR bills for them.
+This is a simple web application to manage customers and generate QR bills for them.
 
 This project was written solely with vibe coding (gemini-cli). ✨
 
@@ -12,15 +12,15 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-* Java 21
-* Maven
+*   Java 21
+*   Maven
 
 ### Building
 
 To build the project, run the following command:
 
 ```bash
-mvn clean package
+mvn clean install
 ```
 
 This will create a `jar` file in the `target` directory.
@@ -30,34 +30,21 @@ This will create a `jar` file in the `target` directory.
 You can run the application using the following command:
 
 ```bash
-java -jar target/billy-1.0.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar target/billy-1.0.0-SNAPSHOT.jar
 ```
 
-### Commands
-
-Here are the available commands:
-
-* `customer`: Manage customers.
-* `add`: Add a new customer.
-* `list`: List all customers.
-* `bill`: Create a new bill.
-* `create`: Create a new bill for a customer.
-
-For more information on a specific command, use the `--help` option. For example:
-
-```bash
-java -jar target/billy-1.0.0-SNAPSHOT-jar-with-dependencies.jar customer add --help
-```
+Once the application is running, open your web browser and navigate to `http://localhost:8080/customers`.
 
 ## Development 💻
 
 This project is built with:
 
-* [PicoCLI](https://picocli.info/) for the CLI.
-* [Gson](https://github.com/google/gson) for JSON handling.
-* [OpenHTMLToPDF](https://github.com/openhtmltopdf/openhtmltopdf) for PDF generation.
-* [Thymeleaf](https://www.thymeleaf.org/) as a template engine.
-* [JUnit 5](https://junit.org/junit5/) for testing.
+*   [Spring Boot](https://spring.io/projects/spring-boot) for the web application framework.
+*   [Thymeleaf](https://www.thymeleaf.org/) as the templating engine.
+*   [Bootstrap](https://getbootstrap.com/) for styling.
+*   [Gson](https://github.com/google/gson) for JSON handling.
+*   [OpenHTMLToPDF](https://github.com/openhtmltopdf/openhtmltopdf) for PDF generation.
+*   [JUnit 5](https://junit.org/junit5/) for testing.
 
 ## Contributing 🙏
 

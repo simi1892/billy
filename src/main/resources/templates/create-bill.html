@@ -1,0 +1,253 @@
+<!-- <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Bill</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">Create New Bill</h1>
+
+        <form th:action="@{/bills}" method="post">
+            <div class="mb-3">
+                <label for="customerId" class="form-label">Customer:</label>
+                <select id="customerId" name="customerId" class="form-select" required>
+                    <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.name}"></option>
+                </select>
+            </div>
+             
+            <button type="submit" class="btn btn-primary">Create Bill</button>
+            <a href="/customers" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+  </body>
+</body>
+</html>
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Bill</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">Create New Bill</h1>
+        <form th:action="@{/bills}" th:object="${billForm}" method="post">
+            <div class="mb-3">
+                <label for="customerId" class="form-label">Customer:</label>
+                <select th:field="*{customerId}" id="customerId" class="form-select" required>
+                    <option value="">-- Select Customer --</option>
+                    <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.name}"></option>
+                </select>
+            </div>
+            
+            <!-- Rides Section -->
+            <div class="mb-4">
+                <h3>Rides</h3>
+                <div id="rides-container">
+                    <div th:each="ride, iterStat : *{rides}" class="ride-item border rounded p-3 mb-3">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label th:for="'rides' + ${iterStat.index} + '.date'" class="form-label">Date:</label>
+                                <input type="date" 
+                                       th:field="*{rides[__${iterStat.index}__].date}"
+                                       class="form-control" 
+                                       required />
+                            </div>
+                            <div class="col-md-3">
+                                <label th:for="'rides' + ${iterStat.index} + '.distance'" class="form-label">Distance (km):</label>
+                                <input type="number" 
+                                       th:field="*{rides[__${iterStat.index}__].distance}"
+                                       class="form-control distance-input" 
+                                       step="0.01" 
+                                       min="0"
+                                       required />
+                            </div>
+                            <div class="col-md-3">
+                                <label th:for="'rides' + ${iterStat.index} + '.pricePerKm'" class="form-label">Price per km (CHF):</label>
+                                <input type="number" 
+                                       th:field="*{rides[__${iterStat.index}__].pricePerKm}"
+                                       class="form-control price-input" 
+                                       step="0.01" 
+                                       min="0"
+                                       required />
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Total:</label>
+                                <div class="form-control-plaintext fw-bold ride-total">CHF 0.00</div>
+                            </div>
+                            <div class="col-md-1 d-flex align-items-end">
+                                <button type="button" class="btn btn-danger btn-sm remove-ride" th:if="${iterStat.index > 0}">
+                                    <i class="bi bi-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" id="add-ride" class="btn btn-success">
+                    <i class="bi bi-plus"></i> Add Ride
+                </button>
+            </div>
+            
+            <!-- Total Section -->
+            <div class="mb-4">
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Bill Total</h5>
+                                <h3 id="bill-total" class="text-primary">CHF 0.00</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Create Bill</button>
+            <a href="/customers" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <script>
+        let rideIndex = /*[[${#lists.size(billForm.rides)}]]*/ 0;
+        
+        // Add new ride
+        document.getElementById('add-ride').addEventListener('click', function() {
+            const container = document.getElementById('rides-container');
+            const rideHtml = `
+                <div class="ride-item border rounded p-3 mb-3">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="rides${rideIndex}.date" class="form-label">Date:</label>
+                            <input type="date" 
+                                   name="rides[${rideIndex}].date" 
+                                   id="rides${rideIndex}.date"
+                                   class="form-control" 
+                                   required />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="rides${rideIndex}.distance" class="form-label">Distance (km):</label>
+                            <input type="number" 
+                                   name="rides[${rideIndex}].distance" 
+                                   id="rides${rideIndex}.distance"
+                                   class="form-control distance-input" 
+                                   step="0.01" 
+                                   min="0"
+                                   required />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="rides${rideIndex}.pricePerKm" class="form-label">Price per km (CHF):</label>
+                            <input type="number" 
+                                   name="rides[${rideIndex}].pricePerKm" 
+                                   id="rides${rideIndex}.pricePerKm"
+                                   class="form-control price-input" 
+                                   step="0.01" 
+                                   min="0"
+                                   required />
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Total:</label>
+                            <div class="form-control-plaintext fw-bold ride-total">CHF 0.00</div>
+                        </div>
+                        <div class="col-md-1 d-flex align-items-end">
+                            <button type="button" class="btn btn-danger btn-sm remove-ride">
+                                <i class="bi bi-trash"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', rideHtml);
+            rideIndex++;
+            updateCalculations();
+        });
+        
+        // Remove ride
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-ride') || e.target.closest('.remove-ride')) {
+                e.target.closest('.ride-item').remove();
+                updateIndices();
+                updateCalculations();
+            }
+        });
+        
+        // Update indices after removal
+        function updateIndices() {
+            const rideItems = document.querySelectorAll('.ride-item');
+            rideItems.forEach((item, index) => {
+                const inputs = item.querySelectorAll('input');
+                inputs.forEach(input => {
+                    const name = input.name;
+                    if (name.includes('.date')) {
+                        input.name = `rides[${index}].date`;
+                        input.id = `rides${index}.date`;
+                    } else if (name.includes('.distance')) {
+                        input.name = `rides[${index}].distance`;
+                        input.id = `rides${index}.distance`;
+                    } else if (name.includes('.pricePerKm')) {
+                        input.name = `rides[${index}].pricePerKm`;
+                        input.id = `rides${index}.pricePerKm`;
+                    }
+                });
+                
+                const labels = item.querySelectorAll('label[for]');
+                labels.forEach(label => {
+                    const forAttr = label.getAttribute('for');
+                    if (forAttr.includes('.date')) {
+                        label.setAttribute('for', `rides${index}.date`);
+                    } else if (forAttr.includes('.distance')) {
+                        label.setAttribute('for', `rides${index}.distance`);
+                    } else if (forAttr.includes('.pricePerKm')) {
+                        label.setAttribute('for', `rides${index}.pricePerKm`);
+                    }
+                });
+            });
+            rideIndex = rideItems.length;
+        }
+        
+        // Update calculations in real-time
+        function updateCalculations() {
+            const rideItems = document.querySelectorAll('.ride-item');
+            let billTotal = 0;
+            
+            rideItems.forEach(item => {
+                const distanceInput = item.querySelector('.distance-input');
+                const priceInput = item.querySelector('.price-input');
+                const totalElement = item.querySelector('.ride-total');
+                
+                const distance = parseFloat(distanceInput.value) || 0;
+                const price = parseFloat(priceInput.value) || 0;
+                const rideTotal = distance * price;
+                
+                totalElement.textContent = `CHF ${rideTotal.toFixed(2)}`;
+                billTotal += rideTotal;
+            });
+            
+            document.getElementById('bill-total').textContent = `CHF ${billTotal.toFixed(2)}`;
+        }
+        
+        // Add event listeners for real-time calculation
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('distance-input') || e.target.classList.contains('price-input')) {
+                updateCalculations();
+            }
+        });
+        
+        // Initialize with one ride if none exist
+        if (rideIndex === 0) {
+            document.getElementById('add-ride').click();
+        }
+        
+        // Initial calculation
+        updateCalculations();
+    </script>
+</body>
+</html>

@@ -7,41 +7,5 @@
     "postalCode": "8000",
     "town": "Zurich",
     "countryCode": "CH"
-  },
-  {
-    "id": "2d68f0e7-ba09-4787-b62c-ac3c95c5930f",
-    "name": "John Doe",
-    "street": "Main Street",
-    "houseNo": "10",
-    "postalCode": "8000",
-    "town": "Zurich",
-    "countryCode": "CH"
-  },
-  {
-    "id": "fe0c8256-be40-4585-8afc-7538dfb12be9",
-    "name": "John Doe",
-    "street": "Main Street",
-    "houseNo": "10",
-    "postalCode": "8000",
-    "town": "Zurich",
-    "countryCode": "CH"
-  },
-  {
-    "id": "46285320-df77-4f43-8a5e-c3f33b148ca8",
-    "name": "John Doe",
-    "street": "Main Street",
-    "houseNo": "10",
-    "postalCode": "8000",
-    "town": "Zurich",
-    "countryCode": "CH"
-  },
-  {
-    "id": "624485a3-8f10-42f0-b914-2f79297d511c",
-    "name": "John Doe",
-    "street": "Main Street",
-    "houseNo": "10",
-    "postalCode": "8000",
-    "town": "Zurich",
-    "countryCode": "CH"
   }
 ]

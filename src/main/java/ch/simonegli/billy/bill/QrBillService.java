@@ -1,5 +1,8 @@
 package ch.simonegli.billy.bill;
 
+import org.springframework.stereotype.Service;
+
+import ch.simonegli.billy.customer.Customer;
 import net.codecrete.qrbill.generator.Address;
 import net.codecrete.qrbill.generator.Bill;
 import net.codecrete.qrbill.generator.BillFormat;
@@ -8,9 +11,10 @@ import net.codecrete.qrbill.generator.Language;
 import net.codecrete.qrbill.generator.OutputSize;
 import net.codecrete.qrbill.generator.QRBill;
 
+@Service
 public class QrBillService {
 
-    public byte[] generateQrBillPng(ch.simonegli.billy.customer.Customer customer, String account, String reference, String unstructuredMessage, double amount) {
+    public byte[] generateQrBillPng(Customer customer, String account, double amount) {
         Bill bill = new Bill();
         bill.setAccount(account);
         bill.setAmountFromDouble(amount);
@@ -24,13 +28,6 @@ public class QrBillService {
         creditor.setTown("Zürich");
         creditor.setCountryCode("CH");
         bill.setCreditor(creditor);
-
-        if (reference != null && !reference.isEmpty()) {
-            bill.setReference(reference);
-        }
-        if (unstructuredMessage != null && !unstructuredMessage.isEmpty()) {
-            bill.setUnstructuredMessage(unstructuredMessage);
-        }
 
         Address debtor = new Address();
         debtor.setName(customer.getName());

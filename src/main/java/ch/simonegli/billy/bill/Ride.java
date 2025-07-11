@@ -9,6 +9,8 @@ public class Ride {
     private BigDecimal distance;
     private BigDecimal pricePerKm;
 
+    public Ride() {}
+
     public Ride(LocalDate date, BigDecimal distance, BigDecimal pricePerKm) {
         this.date = date;
         this.distance = distance;

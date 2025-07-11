@@ -1,16 +1,15 @@
 package ch.simonegli.billy.customer;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class CustomerService {
     private final CustomerFileManager fileManager;
     private List<Customer> customers;
-
-    public CustomerService() {
-        this(new CustomerFileManager());
-    }
 
     public CustomerService(CustomerFileManager fileManager) {
         this.fileManager = fileManager;
@@ -24,18 +23,19 @@ public class CustomerService {
         return customer;
     }
 
-    public List<Customer> getAllCustomers() {
+    public List<Customer> getCustomers() {
         return this.customers;
     }
 
-    public Optional<Customer> getCustomerById(String id) {
+    public Customer getCustomerById(UUID id) {
         return this.customers.stream()
-                .filter(c -> c.getId().equals(id))
-                .findFirst();
+                .filter(c -> c.getId().equals(id.toString()))
+                .findFirst()
+                .orElse(null);
     }
 
     public Optional<Customer> updateCustomer(String id, Customer updatedCustomer) {
-        Optional<Customer> existingCustomer = getCustomerById(id);
+        Optional<Customer> existingCustomer = Optional.ofNullable(getCustomerById(UUID.fromString(id)));
         if (existingCustomer.isPresent()) {
             Customer customerToUpdate = existingCustomer.get();
             customerToUpdate.setName(updatedCustomer.getName());

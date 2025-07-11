@@ -10,6 +10,7 @@ public class Customer {
     private String countryCode;
 
     public Customer() {
+      // no args contsructor
     }
 
     public void setId(String id) {
